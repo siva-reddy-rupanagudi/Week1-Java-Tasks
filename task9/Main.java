@@ -114,7 +114,23 @@ public class Main {
                     return st;
                 }).toList();
 
-        overallFeedBackList.forEach(ov -> System.out.println(ov.toString()));
-        System.out.println("hey...hello");
+        overallFeedBackList.forEach(ov -> {
+            System.out.println("Student: "+ov.getName()+"\nOverall Rating: "+ov.getOveralRating()+"\nPerformance: "+ov.getPerformance()+"\nPlacement Eligible: "+ov.getIsEligible()+"\nSuggestions: "+ov.getSuggestion());
+            System.out.println("****************************************************************************************************************************************************************************************");
+        });
+        System.out.println();
+        System.out.println("********************Grouping the Students by the Performance************************");
+        Map<String,List<OverallFeedBack>>groupingStudents=overallFeedBackList.stream().collect(Collectors.groupingBy(OverallFeedBack::getPerformance));
+        groupingStudents.entrySet().forEach(stringListEntry -> System.out.println(stringListEntry.getKey()+": "+stringListEntry.getValue()));
+        System.out.println();
+        System.out.println("********************Sorting the Students by the overallRating in Ascending Order************************");
+        overallFeedBackList.stream().sorted((st1,st2)->Double.compare(st1.getOveralRating(),st2.getOveralRating())).forEach(System.out::println);
+        System.out.println();
+        System.out.println("********************Sorting the Students by the overallRating in Descending Order************************");
+        overallFeedBackList.stream().sorted((st1,st2)->Double.compare(st2.getOveralRating(),st1.getOveralRating())).forEach(System.out::println);
+        System.out.println();
+        System.out.println("********************List the Students Not Eligible and getSuggestions************************");
+        List<OverallFeedBack>notEligible=overallFeedBackList.stream().filter(overallFeedBack -> overallFeedBack.getIsEligible().equalsIgnoreCase("NO")).toList();
+        notEligible.forEach((overallFeedBack -> System.out.println("Name: "+overallFeedBack.getName() +"\n"+overallFeedBack.getSuggestion())));
     }
 }
